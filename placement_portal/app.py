@@ -497,7 +497,10 @@ def job_detail(job_id):
             existing_app = Application.query.filter_by(a_student_id=sp.sp_id, a_job_id=job_id).first()
             has_applied = existing_app is not None
     
-    return render_template('jobs/detail.html', job=job, has_applied=has_applied)
+    # today: Get today's date for deadline comparison
+    today = date.today()
+    
+    return render_template('jobs/detail.html', job=job, has_applied=has_applied, today=today)
 
 @app.route('/jobs/<int:job_id>/apply', methods=['GET', 'POST'])
 @login_required

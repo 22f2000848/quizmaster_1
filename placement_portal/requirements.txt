@@ -7,17 +7,17 @@
 Flask==2.3.0
 
 # Database ORM
-Flask-SQLAlchemy==3.0.0
-SQLAlchemy==2.0.0
+Flask-SQLAlchemy==3.0.5
 
 # Authentication and session management
 Flask-Login==0.6.2
 
 # Form handling and validation
-Flask-WTF==1.1.1
+Flask-WTF==1.2.1
 WTForms==3.0.1
+email-validator==2.0.0
 
-# Password hashing
+# Password hashing (included with Flask)
 Werkzeug==2.3.0
 
 # Email support (for future notifications)

@@ -1,0 +1,188 @@
+{% extends "base.html" %}
+
+{% block title %}Company Dashboard - Placement Portal{% endblock %}
+
+{% block content %}
+<div class="container py-4">
+    <div class="row mb-4">
+        <div class="col">
+            <h1 class="h2"><i class="bi bi-speedometer2"></i> Company Dashboard</h1>
+            <p class="text-muted">Welcome, {{ company.cp_name }}!</p>
+            
+            {% if not company.cp_is_verified %}
+                <div class="alert alert-warning">
+                    <i class="bi bi-exclamation-triangle"></i> <strong>Pending Verification:</strong> Your company account is awaiting admin approval. You can post jobs once verified.
+                </div>
+            {% endif %}
+        </div>
+    </div>
+    
+    <!-- Statistics Cards -->
+    <div class="row g-3 mb-4">
+        <div class="col-md-3">
+            <div class="card border-0 shadow-sm h-100">
+                <div class="card-body">
+                    <div class="d-flex align-items-center">
+                        <div class="flex-shrink-0">
+                            <div class="bg-primary bg-gradient text-white rounded-circle d-flex align-items-center justify-content-center" style="width: 50px; height: 50px;">
+                                <i class="bi bi-briefcase fs-4"></i>
+                            </div>
+                        </div>
+                        <div class="flex-grow-1 ms-3">
+                            <h6 class="text-muted mb-1">Total Jobs</h6>
+                            <h3 class="mb-0">{{ total_jobs }}</h3>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="col-md-3">
+            <div class="card border-0 shadow-sm h-100">
+                <div class="card-body">
+                    <div class="d-flex align-items-center">
+                        <div class="flex-shrink-0">
+                            <div class="bg-success bg-gradient text-white rounded-circle d-flex align-items-center justify-content-center" style="width: 50px; height: 50px;">
+                                <i class="bi bi-check-circle fs-4"></i>
+                            </div>
+                        </div>
+                        <div class="flex-grow-1 ms-3">
+                            <h6 class="text-muted mb-1">Active Jobs</h6>
+                            <h3 class="mb-0">{{ active_jobs }}</h3>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="col-md-3">
+            <div class="card border-0 shadow-sm h-100">
+                <div class="card-body">
+                    <div class="d-flex align-items-center">
+                        <div class="flex-shrink-0">
+                            <div class="bg-info bg-gradient text-white rounded-circle d-flex align-items-center justify-content-center" style="width: 50px; height: 50px;">
+                                <i class="bi bi-people fs-4"></i>
+                            </div>
+                        </div>
+                        <div class="flex-grow-1 ms-3">
+                            <h6 class="text-muted mb-1">Total Applicants</h6>
+                            <h3 class="mb-0">{{ total_applicants }}</h3>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="col-md-3">
+            <div class="card border-0 shadow-sm h-100">
+                <div class="card-body">
+                    <div class="d-flex align-items-center">
+                        <div class="flex-shrink-0">
+                            <div class="bg-warning bg-gradient text-white rounded-circle d-flex align-items-center justify-content-center" style="width: 50px; height: 50px;">
+                                <i class="bi bi-star fs-4"></i>
+                            </div>
+                        </div>
+                        <div class="flex-grow-1 ms-3">
+                            <h6 class="text-muted mb-1">Shortlisted</h6>
+                            <h3 class="mb-0">{{ shortlisted }}</h3>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Recent Jobs -->
+    <div class="row">
+        <div class="col-lg-8">
+            <div class="card border-0 shadow-sm mb-4">
+                <div class="card-header bg-white py-3">
+                    <h5 class="mb-0"><i class="bi bi-list-ul"></i> Recent Job Postings</h5>
+                </div>
+                <div class="card-body p-0">
+                    {% if recent_jobs %}
+                        <div class="table-responsive">
+                            <table class="table table-hover mb-0">
+                                <thead class="table-light">
+                                    <tr>
+                                        <th>Job Title</th>
+                                        <th>Location</th>
+                                        <th>Applications</th>
+                                        <th>Status</th>
+                                        <th>Posted</th>
+                                        <th>Action</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    {% for job in recent_jobs %}
+                                        <tr>
+                                            <td><strong>{{ job.jp_title }}</strong></td>
+                                            <td>{{ job.jp_location or 'N/A' }}</td>
+                                            <td>
+                                                <a href="{{ url_for('company_applicants', job_id=job.jp_id) }}" class="badge bg-primary text-decoration-none">
+                                                    {{ job.rel_applications.count() }} applicants
+                                                </a>
+                                            </td>
+                                            <td>
+                                                {% if job.jp_is_active %}
+                                                    <span class="badge bg-success">Active</span>
+                                                {% else %}
+                                                    <span class="badge bg-secondary">Closed</span>
+                                                {% endif %}
+                                            </td>
+                                            <td>{{ job.jp_created_at.strftime('%b %d') }}</td>
+                                            <td>
+                                                <a href="{{ url_for('company_applicants', job_id=job.jp_id) }}" class="btn btn-sm btn-outline-primary">
+                                                    <i class="bi bi-people"></i> View
+                                                </a>
+                                            </td>
+                                        </tr>
+                                    {% endfor %}
+                                </tbody>
+                            </table>
+                        </div>
+                        <div class="card-footer bg-white">
+                            <a href="{{ url_for('company_jobs') }}" class="btn btn-sm btn-outline-primary">
+                                View All Jobs <i class="bi bi-arrow-right"></i>
+                            </a>
+                        </div>
+                    {% else %}
+                        <div class="p-4 text-center text-muted">
+                            <i class="bi bi-inbox display-4"></i>
+                            <p class="mt-2 mb-0">No jobs posted yet. <a href="{{ url_for('company_post_job') }}">Post your first job</a>!</p>
+                        </div>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+        
+        <!-- Quick Actions -->
+        <div class="col-lg-4">
+            <div class="card border-0 shadow-sm">
+                <div class="card-header bg-white py-3">
+                    <h5 class="mb-0"><i class="bi bi-lightning"></i> Quick Actions</h5>
+                </div>
+                <div class="card-body">
+                    <div class="d-grid gap-2">
+                        {% if company.cp_is_verified %}
+                            <a href="{{ url_for('company_post_job') }}" class="btn btn-primary">
+                                <i class="bi bi-plus-circle"></i> Post New Job
+                            </a>
+                        {% else %}
+                            <button class="btn btn-primary" disabled>
+                                <i class="bi bi-plus-circle"></i> Post New Job (Awaiting Verification)
+                            </button>
+                        {% endif %}
+                        <a href="{{ url_for('company_jobs') }}" class="btn btn-outline-primary">
+                            <i class="bi bi-list-ul"></i> Manage Jobs
+                        </a>
+                        <a href="{{ url_for('job_listings') }}" class="btn btn-outline-primary">
+                            <i class="bi bi-search"></i> Browse All Jobs
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

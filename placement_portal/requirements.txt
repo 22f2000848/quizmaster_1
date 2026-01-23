@@ -1,0 +1,27 @@
+# =============================================================================
+# FILE: requirements.txt
+# PURPOSE: Lists all Python dependencies required for the Placement Portal
+# =============================================================================
+
+# Flask core framework
+Flask==2.3.0
+
+# Database ORM
+Flask-SQLAlchemy==3.0.0
+SQLAlchemy==2.0.0
+
+# Authentication and session management
+Flask-Login==0.6.2
+
+# Form handling and validation
+Flask-WTF==1.1.1
+WTForms==3.0.1
+
+# Password hashing
+Werkzeug==2.3.0
+
+# Email support (for future notifications)
+Flask-Mail==0.9.1
+
+# Date/time utilities
+python-dateutil==2.8.2

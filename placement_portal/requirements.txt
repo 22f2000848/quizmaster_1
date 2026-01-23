@@ -3,22 +3,24 @@
 # PURPOSE: Lists all Python dependencies required for the Placement Portal
 # =============================================================================
 
-# Flask core framework
-Flask==2.3.0
+# Flask core framework - Updated to 2.3.2 to fix security vulnerabilities
+# CVE-2023-30861: Flask vulnerable to possible disclosure of permanent session cookie
+Flask==2.3.2
 
 # Database ORM
 Flask-SQLAlchemy==3.0.5
 
-# Authentication and session management
-Flask-Login==0.6.2
+# Authentication and session management - Updated for Werkzeug 3.0+ compatibility
+Flask-Login==0.6.3
 
 # Form handling and validation
 Flask-WTF==1.2.1
 WTForms==3.0.1
 email-validator==2.0.0
 
-# Password hashing (included with Flask)
-Werkzeug==2.3.0
+# Password hashing - Updated to 3.0.3 to fix security vulnerabilities
+# CVE-2023-46136: Werkzeug debugger vulnerable to remote execution
+Werkzeug==3.0.3
 
 # Email support (for future notifications)
 Flask-Mail==0.9.1

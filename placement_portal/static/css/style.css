@@ -1,0 +1,292 @@
+/* =============================================================================
+   FILE: style.css
+   PURPOSE: Custom styles for Placement Portal application
+   DESCRIPTION: Bootstrap 5 overrides and custom component styles
+   ============================================================================= */
+
+/* Global Styles */
+:root {
+    /* clr_primary: Main brand color - professional blue */
+    --clr-primary: #0d6efd;
+    /* clr_secondary: Secondary accent color - neutral gray */
+    --clr-secondary: #6c757d;
+    /* clr_success: Success state color - green */
+    --clr-success: #198754;
+    /* clr_danger: Error/danger state color - red */
+    --clr-danger: #dc3545;
+    /* clr_warning: Warning state color - yellow */
+    --clr-warning: #ffc107;
+    /* clr_info: Info state color - light blue */
+    --clr-info: #0dcaf0;
+}
+
+/* Body and General Layout */
+body {
+    /* Apply default font and ensure footer stays at bottom */
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background-color: #f8f9fa;
+}
+
+main {
+    /* main_flex: Allow main content to grow and push footer down */
+    flex: 1;
+}
+
+/* Navigation Enhancements */
+.navbar-brand {
+    /* brand_font: Make brand text larger and bolder */
+    font-size: 1.5rem;
+    font-weight: 700;
+}
+
+.nav-link {
+    /* link_transition: Smooth transition for hover effects */
+    transition: all 0.3s ease;
+}
+
+.nav-link:hover {
+    /* link_hover: Slightly lighter on hover */
+    opacity: 0.8;
+}
+
+/* Hero Section */
+.hero-section {
+    /* hero_gradient: Add subtle gradient background */
+    background: linear-gradient(135deg, #0d6efd 0%, #0a58ca 100%);
+}
+
+/* Card Enhancements */
+.card {
+    /* card_transition: Smooth transitions for interactive cards */
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.card:hover {
+    /* card_hover: Subtle lift effect on hover */
+    transform: translateY(-2px);
+}
+
+.card .card-header {
+    /* header_border: Remove default bottom border */
+    border-bottom: none;
+}
+
+/* Feature Icons */
+.feature-icon {
+    /* icon_size: Standardize feature icon dimensions */
+    width: 80px;
+    height: 80px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0 auto;
+}
+
+/* Buttons */
+.btn {
+    /* btn_padding: Comfortable padding for all buttons */
+    padding: 0.5rem 1.5rem;
+    /* btn_transition: Smooth hover effect */
+    transition: all 0.3s ease;
+    font-weight: 500;
+}
+
+.btn:hover {
+    /* btn_hover: Slight lift on hover */
+    transform: translateY(-1px);
+    box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+}
+
+/* Forms */
+.form-control:focus,
+.form-select:focus {
+    /* focus_shadow: Custom focus ring color matching brand */
+    border-color: var(--clr-primary);
+    box-shadow: 0 0 0 0.2rem rgba(13, 110, 253, 0.25);
+}
+
+.form-label {
+    /* label_weight: Make labels slightly bolder */
+    font-weight: 500;
+    margin-bottom: 0.5rem;
+}
+
+/* Alerts */
+.alert {
+    /* alert_border: Subtle border radius */
+    border-radius: 0.5rem;
+    /* alert_shadow: Soft shadow for depth */
+    box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+}
+
+/* Tables */
+.table {
+    /* tbl_bg: White background for tables */
+    background-color: white;
+}
+
+.table thead {
+    /* thead_bg: Light gray background for headers */
+    background-color: #f8f9fa;
+}
+
+.table-hover tbody tr:hover {
+    /* tr_hover: Subtle highlight on row hover */
+    background-color: rgba(13, 110, 253, 0.05);
+    cursor: pointer;
+}
+
+/* Badges */
+.badge {
+    /* badge_padding: Comfortable padding for badges */
+    padding: 0.35em 0.65em;
+    font-weight: 500;
+}
+
+/* Footer */
+footer {
+    /* footer_margin: Space from main content */
+    margin-top: auto;
+}
+
+/* Utility Classes */
+.text-justify {
+    /* txt_align: Justified text alignment */
+    text-align: justify;
+}
+
+.shadow-sm {
+    /* shadow_custom: Soft shadow for elevation */
+    box-shadow: 0 0.125rem 0.25rem rgba(0, 0, 0, 0.075) !important;
+}
+
+/* Custom Scrollbar */
+::-webkit-scrollbar {
+    /* scrollbar_width: Thin scrollbar */
+    width: 8px;
+}
+
+::-webkit-scrollbar-track {
+    /* scrollbar_track: Light gray background */
+    background: #f1f1f1;
+}
+
+::-webkit-scrollbar-thumb {
+    /* scrollbar_thumb: Primary color thumb */
+    background: var(--clr-primary);
+    border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+    /* scrollbar_hover: Darker on hover */
+    background: #0a58ca;
+}
+
+/* Responsive Adjustments */
+@media (max-width: 768px) {
+    /* mobile_hero: Reduce hero section padding on mobile */
+    .hero-section {
+        padding: 2rem 0 !important;
+    }
+    
+    /* mobile_card: Full width cards on mobile */
+    .card-body {
+        padding: 1rem;
+    }
+    
+    /* mobile_display: Smaller display text on mobile */
+    .display-1 {
+        font-size: 3rem;
+    }
+    
+    .display-3 {
+        font-size: 2rem;
+    }
+}
+
+/* Animation Classes */
+@keyframes fadeIn {
+    /* fade_in: Fade in animation */
+    from {
+        opacity: 0;
+        transform: translateY(10px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.fade-in {
+    /* anim_fade: Apply fade in animation */
+    animation: fadeIn 0.5s ease-in;
+}
+
+/* Loading Spinner */
+.spinner-border-sm {
+    /* spinner_size: Small spinner dimensions */
+    width: 1rem;
+    height: 1rem;
+    border-width: 0.15em;
+}
+
+/* Custom Dropdown */
+.dropdown-menu {
+    /* dropdown_shadow: Shadow for dropdown menus */
+    box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.15);
+    border: none;
+}
+
+.dropdown-item:hover {
+    /* dropdown_hover: Highlight color on hover */
+    background-color: rgba(13, 110, 253, 0.1);
+}
+
+/* Status Badges */
+.badge.bg-secondary {
+    /* status_secondary: Applied status */
+    background-color: #6c757d !important;
+}
+
+.badge.bg-info {
+    /* status_info: Under review status */
+    background-color: #0dcaf0 !important;
+}
+
+.badge.bg-primary {
+    /* status_primary: Shortlisted status */
+    background-color: #0d6efd !important;
+}
+
+.badge.bg-warning {
+    /* status_warning: Interview status */
+    background-color: #ffc107 !important;
+}
+
+.badge.bg-success {
+    /* status_success: Selected status */
+    background-color: #198754 !important;
+}
+
+.badge.bg-danger {
+    /* status_danger: Rejected status */
+    background-color: #dc3545 !important;
+}
+
+/* Print Styles */
+@media print {
+    /* print_hide: Hide navigation and footer when printing */
+    .navbar,
+    footer,
+    .btn {
+        display: none !important;
+    }
+    
+    /* print_adjust: Full width for printed content */
+    .container {
+        max-width: 100% !important;
+    }
+}

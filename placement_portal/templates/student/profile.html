@@ -1,0 +1,80 @@
+{% extends "base.html" %}
+
+{% block title %}My Profile - Placement Portal{% endblock %}
+
+{% block content %}
+<div class="container py-4">
+    <div class="row justify-content-center">
+        <div class="col-lg-8">
+            <div class="card border-0 shadow-sm">
+                <div class="card-header bg-primary text-white py-3">
+                    <h4 class="mb-0"><i class="bi bi-person"></i> Student Profile</h4>
+                </div>
+                <div class="card-body p-4">
+                    <form method="POST" action="{{ url_for('student_profile') }}" novalidate>
+                        {{ form.hidden_tag() }}
+                        
+                        <!-- Full Name -->
+                        <div class="mb-3">
+                            <label for="{{ form.spuf_full_name.id }}" class="form-label">
+                                <i class="bi bi-person"></i> Full Name *
+                            </label>
+                            {{ form.spuf_full_name(class="form-control" + (" is-invalid" if form.spuf_full_name.errors else "")) }}
+                            {% if form.spuf_full_name.errors %}
+                                <div class="invalid-feedback">
+                                    {% for error in form.spuf_full_name.errors %}{{ error }}{% endfor %}
+                                </div>
+                            {% endif %}
+                        </div>
+                        
+                        <!-- College -->
+                        <div class="mb-3">
+                            <label for="{{ form.spuf_college.id }}" class="form-label">
+                                <i class="bi bi-building"></i> College/University
+                            </label>
+                            {{ form.spuf_college(class="form-control") }}
+                        </div>
+                        
+                        <!-- Branch and CGPA -->
+                        <div class="row">
+                            <div class="col-md-8 mb-3">
+                                <label for="{{ form.spuf_branch.id }}" class="form-label">
+                                    <i class="bi bi-book"></i> Branch/Department
+                                </label>
+                                {{ form.spuf_branch(class="form-control") }}
+                            </div>
+                            
+                            <div class="col-md-4 mb-3">
+                                <label for="{{ form.spuf_cgpa.id }}" class="form-label">
+                                    <i class="bi bi-star"></i> CGPA
+                                </label>
+                                {{ form.spuf_cgpa(class="form-control" + (" is-invalid" if form.spuf_cgpa.errors else ""), step="0.01") }}
+                                {% if form.spuf_cgpa.errors %}
+                                    <div class="invalid-feedback">
+                                        {% for error in form.spuf_cgpa.errors %}{{ error }}{% endfor %}
+                                    </div>
+                                {% endif %}
+                            </div>
+                        </div>
+                        
+                        <!-- Skills -->
+                        <div class="mb-4">
+                            <label for="{{ form.spuf_skills.id }}" class="form-label">
+                                <i class="bi bi-tools"></i> Skills
+                            </label>
+                            {{ form.spuf_skills(class="form-control", rows="4") }}
+                            <div class="form-text">Enter your skills separated by commas</div>
+                        </div>
+                        
+                        <!-- Submit Button -->
+                        <div class="d-flex gap-2">
+                            {{ form.spuf_submit(class="btn btn-primary") }}
+                            <a href="{{ url_for('student_dashboard') }}" class="btn btn-secondary">Cancel</a>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

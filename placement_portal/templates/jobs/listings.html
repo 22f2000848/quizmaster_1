@@ -1,0 +1,99 @@
+{% extends "base.html" %}
+
+{% block title %}Job Listings - Placement Portal{% endblock %}
+
+{% block content %}
+<div class="container py-4">
+    <div class="row mb-4">
+        <div class="col">
+            <h1 class="h2"><i class="bi bi-search"></i> Job Listings</h1>
+            <p class="text-muted">Browse available job opportunities</p>
+        </div>
+    </div>
+    
+    <!-- Search Bar -->
+    <div class="card border-0 shadow-sm mb-4">
+        <div class="card-body">
+            <form method="GET" action="{{ url_for('job_listings') }}">
+                <div class="input-group">
+                    <span class="input-group-text bg-white"><i class="bi bi-search"></i></span>
+                    <input type="text" name="search" class="form-control border-start-0" placeholder="Search by job title, company, or location..." value="{{ search }}">
+                    <button type="submit" class="btn btn-primary">Search</button>
+                </div>
+            </form>
+        </div>
+    </div>
+    
+    <!-- Job Cards -->
+    {% if jobs %}
+        <div class="row g-3">
+            {% for job in jobs %}
+                <div class="col-md-6 col-lg-4">
+                    <div class="card h-100 border-0 shadow-sm hover-lift">
+                        <div class="card-body">
+                            <h5 class="card-title mb-2">
+                                <a href="{{ url_for('job_detail', job_id=job.jp_id) }}" class="text-decoration-none text-dark">
+                                    {{ job.jp_title }}
+                                </a>
+                            </h5>
+                            <h6 class="card-subtitle mb-3 text-primary">
+                                <i class="bi bi-building"></i> {{ job.posting_company.cp_name }}
+                            </h6>
+                            
+                            <p class="card-text text-muted small mb-3">
+                                {{ job.jp_description[:150] }}{% if job.jp_description|length > 150 %}...{% endif %}
+                            </p>
+                            
+                            <div class="mb-2">
+                                {% if job.jp_location %}
+                                    <span class="badge bg-light text-dark me-1">
+                                        <i class="bi bi-geo-alt"></i> {{ job.jp_location }}
+                                    </span>
+                                {% endif %}
+                                {% if job.jp_salary_min and job.jp_salary_max %}
+                                    <span class="badge bg-light text-dark">
+                                        <i class="bi bi-currency-dollar"></i> {{ job.jp_salary_min }}-{{ job.jp_salary_max }}
+                                    </span>
+                                {% endif %}
+                            </div>
+                            
+                            <div class="d-flex justify-content-between align-items-center mt-3">
+                                <small class="text-muted">
+                                    <i class="bi bi-calendar"></i> Posted {{ job.jp_created_at.strftime('%b %d') }}
+                                </small>
+                                <a href="{{ url_for('job_detail', job_id=job.jp_id) }}" class="btn btn-sm btn-primary">
+                                    View Details <i class="bi bi-arrow-right"></i>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+    {% else %}
+        <div class="card border-0 shadow-sm">
+            <div class="card-body p-5 text-center text-muted">
+                <i class="bi bi-inbox display-1"></i>
+                <h4 class="mt-3">No Jobs Found</h4>
+                {% if search %}
+                    <p>No jobs match your search criteria. Try different keywords.</p>
+                    <a href="{{ url_for('job_listings') }}" class="btn btn-primary mt-2">
+                        <i class="bi bi-arrow-left"></i> View All Jobs
+                    </a>
+                {% else %}
+                    <p>There are no active job postings at the moment. Check back later!</p>
+                {% endif %}
+            </div>
+        </div>
+    {% endif %}
+</div>
+
+<style>
+.hover-lift {
+    transition: transform 0.2s ease-in-out;
+}
+.hover-lift:hover {
+    transform: translateY(-5px);
+}
+</style>
+{% endblock %}

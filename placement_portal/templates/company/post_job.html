@@ -1,0 +1,111 @@
+{% extends "base.html" %}
+
+{% block title %}Post Job - Placement Portal{% endblock %}
+
+{% block content %}
+<div class="container py-4">
+    <div class="row justify-content-center">
+        <div class="col-lg-8">
+            <div class="card border-0 shadow-sm">
+                <div class="card-header bg-success text-white py-3">
+                    <h4 class="mb-0"><i class="bi bi-plus-circle"></i> Post New Job</h4>
+                </div>
+                <div class="card-body p-4">
+                    <form method="POST" action="{{ url_for('company_post_job') }}" novalidate>
+                        {{ form.hidden_tag() }}
+                        
+                        <!-- Job Title -->
+                        <div class="mb-3">
+                            <label for="{{ form.jpf_title.id }}" class="form-label">
+                                <i class="bi bi-briefcase"></i> Job Title *
+                            </label>
+                            {{ form.jpf_title(class="form-control" + (" is-invalid" if form.jpf_title.errors else ""), placeholder="e.g., Software Engineer, Data Analyst") }}
+                            {% if form.jpf_title.errors %}
+                                <div class="invalid-feedback">
+                                    {% for error in form.jpf_title.errors %}{{ error }}{% endfor %}
+                                </div>
+                            {% endif %}
+                        </div>
+                        
+                        <!-- Job Description -->
+                        <div class="mb-3">
+                            <label for="{{ form.jpf_description.id }}" class="form-label">
+                                <i class="bi bi-file-text"></i> Job Description *
+                            </label>
+                            {{ form.jpf_description(class="form-control" + (" is-invalid" if form.jpf_description.errors else ""), rows="5", placeholder="Describe the role, responsibilities, and what you're looking for...") }}
+                            {% if form.jpf_description.errors %}
+                                <div class="invalid-feedback">
+                                    {% for error in form.jpf_description.errors %}{{ error }}{% endfor %}
+                                </div>
+                            {% endif %}
+                        </div>
+                        
+                        <!-- Requirements -->
+                        <div class="mb-3">
+                            <label for="{{ form.jpf_requirements.id }}" class="form-label">
+                                <i class="bi bi-list-check"></i> Requirements
+                            </label>
+                            {{ form.jpf_requirements(class="form-control", rows="4", placeholder="List required skills, qualifications, and experience...") }}
+                        </div>
+                        
+                        <!-- Salary Range -->
+                        <div class="row">
+                            <div class="col-md-6 mb-3">
+                                <label for="{{ form.jpf_salary_min.id }}" class="form-label">
+                                    <i class="bi bi-currency-dollar"></i> Minimum Salary
+                                </label>
+                                {{ form.jpf_salary_min(class="form-control" + (" is-invalid" if form.jpf_salary_min.errors else ""), placeholder="e.g., 50000") }}
+                                {% if form.jpf_salary_min.errors %}
+                                    <div class="invalid-feedback">
+                                        {% for error in form.jpf_salary_min.errors %}{{ error }}{% endfor %}
+                                    </div>
+                                {% endif %}
+                            </div>
+                            
+                            <div class="col-md-6 mb-3">
+                                <label for="{{ form.jpf_salary_max.id }}" class="form-label">
+                                    <i class="bi bi-currency-dollar"></i> Maximum Salary
+                                </label>
+                                {{ form.jpf_salary_max(class="form-control" + (" is-invalid" if form.jpf_salary_max.errors else ""), placeholder="e.g., 80000") }}
+                                {% if form.jpf_salary_max.errors %}
+                                    <div class="invalid-feedback">
+                                        {% for error in form.jpf_salary_max.errors %}{{ error }}{% endfor %}
+                                    </div>
+                                {% endif %}
+                            </div>
+                        </div>
+                        
+                        <!-- Location and Deadline -->
+                        <div class="row">
+                            <div class="col-md-6 mb-3">
+                                <label for="{{ form.jpf_location.id }}" class="form-label">
+                                    <i class="bi bi-geo-alt"></i> Location
+                                </label>
+                                {{ form.jpf_location(class="form-control", placeholder="e.g., New York, Remote") }}
+                            </div>
+                            
+                            <div class="col-md-6 mb-4">
+                                <label for="{{ form.jpf_deadline.id }}" class="form-label">
+                                    <i class="bi bi-calendar"></i> Application Deadline *
+                                </label>
+                                {{ form.jpf_deadline(class="form-control" + (" is-invalid" if form.jpf_deadline.errors else "")) }}
+                                {% if form.jpf_deadline.errors %}
+                                    <div class="invalid-feedback">
+                                        {% for error in form.jpf_deadline.errors %}{{ error }}{% endfor %}
+                                    </div>
+                                {% endif %}
+                            </div>
+                        </div>
+                        
+                        <!-- Submit Button -->
+                        <div class="d-flex gap-2">
+                            {{ form.jpf_submit(class="btn btn-success btn-lg") }}
+                            <a href="{{ url_for('company_dashboard') }}" class="btn btn-secondary btn-lg">Cancel</a>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

@@ -1,0 +1,170 @@
+{% extends "base.html" %}
+
+{% block title %}{{ job.jp_title }} - Placement Portal{% endblock %}
+
+{% block content %}
+<div class="container py-4">
+    <div class="row">
+        <div class="col-lg-8">
+            <!-- Job Details Card -->
+            <div class="card border-0 shadow-sm mb-4">
+                <div class="card-body p-4">
+                    <h1 class="h2 mb-3">{{ job.jp_title }}</h1>
+                    <h4 class="text-primary mb-4">
+                        <i class="bi bi-building"></i> {{ job.posting_company.cp_name }}
+                    </h4>
+                    
+                    <!-- Job Meta Info -->
+                    <div class="row g-3 mb-4">
+                        {% if job.jp_location %}
+                            <div class="col-sm-6">
+                                <div class="d-flex align-items-center">
+                                    <i class="bi bi-geo-alt fs-4 text-muted me-2"></i>
+                                    <div>
+                                        <small class="text-muted d-block">Location</small>
+                                        <strong>{{ job.jp_location }}</strong>
+                                    </div>
+                                </div>
+                            </div>
+                        {% endif %}
+                        
+                        {% if job.jp_salary_min and job.jp_salary_max %}
+                            <div class="col-sm-6">
+                                <div class="d-flex align-items-center">
+                                    <i class="bi bi-currency-dollar fs-4 text-muted me-2"></i>
+                                    <div>
+                                        <small class="text-muted d-block">Salary Range</small>
+                                        <strong>${{ job.jp_salary_min }} - ${{ job.jp_salary_max }}</strong>
+                                    </div>
+                                </div>
+                            </div>
+                        {% endif %}
+                        
+                        {% if job.jp_deadline %}
+                            <div class="col-sm-6">
+                                <div class="d-flex align-items-center">
+                                    <i class="bi bi-calendar-event fs-4 text-muted me-2"></i>
+                                    <div>
+                                        <small class="text-muted d-block">Application Deadline</small>
+                                        <strong>{{ job.jp_deadline.strftime('%B %d, %Y') }}</strong>
+                                    </div>
+                                </div>
+                            </div>
+                        {% endif %}
+                        
+                        <div class="col-sm-6">
+                            <div class="d-flex align-items-center">
+                                <i class="bi bi-clock-history fs-4 text-muted me-2"></i>
+                                <div>
+                                    <small class="text-muted d-block">Posted On</small>
+                                    <strong>{{ job.jp_created_at.strftime('%B %d, %Y') }}</strong>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <hr class="my-4">
+                    
+                    <!-- Job Description -->
+                    <h5 class="mb-3"><i class="bi bi-file-text"></i> Job Description</h5>
+                    <p class="text-justify" style="white-space: pre-line;">{{ job.jp_description }}</p>
+                    
+                    {% if job.jp_requirements %}
+                        <hr class="my-4">
+                        <h5 class="mb-3"><i class="bi bi-list-check"></i> Requirements</h5>
+                        <p class="text-justify" style="white-space: pre-line;">{{ job.jp_requirements }}</p>
+                    {% endif %}
+                </div>
+            </div>
+            
+            <!-- Company Info Card -->
+            <div class="card border-0 shadow-sm">
+                <div class="card-header bg-white py-3">
+                    <h5 class="mb-0"><i class="bi bi-building"></i> About {{ job.posting_company.cp_name }}</h5>
+                </div>
+                <div class="card-body">
+                    {% if job.posting_company.cp_industry %}
+                        <p class="mb-2"><strong>Industry:</strong> {{ job.posting_company.cp_industry }}</p>
+                    {% endif %}
+                    {% if job.posting_company.cp_description %}
+                        <p class="mb-2">{{ job.posting_company.cp_description }}</p>
+                    {% endif %}
+                    {% if job.posting_company.cp_website %}
+                        <p class="mb-0">
+                            <strong>Website:</strong> 
+                            <a href="{{ job.posting_company.cp_website }}" target="_blank" rel="noopener">
+                                {{ job.posting_company.cp_website }} <i class="bi bi-box-arrow-up-right"></i>
+                            </a>
+                        </p>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+        
+        <!-- Sidebar -->
+        <div class="col-lg-4">
+            <div class="card border-0 shadow-sm sticky-top" style="top: 1rem;">
+                <div class="card-body p-4">
+                    {% if current_user.is_authenticated and current_user.u_role == 'student' %}
+                        {% if has_applied %}
+                            <div class="alert alert-success mb-3">
+                                <i class="bi bi-check-circle"></i> You have already applied to this job
+                            </div>
+                            <a href="{{ url_for('student_applications') }}" class="btn btn-outline-primary w-100 mb-2">
+                                <i class="bi bi-list-check"></i> View My Applications
+                            </a>
+                        {% else %}
+                            {% if job.jp_deadline and job.jp_deadline < today %}
+                                <div class="alert alert-warning mb-3">
+                                    <i class="bi bi-exclamation-triangle"></i> Application deadline has passed
+                                </div>
+                            {% elif not job.jp_is_active %}
+                                <div class="alert alert-warning mb-3">
+                                    <i class="bi bi-exclamation-triangle"></i> This job is no longer accepting applications
+                                </div>
+                            {% else %}
+                                <a href="{{ url_for('apply_to_job', job_id=job.jp_id) }}" class="btn btn-primary w-100 mb-3 btn-lg">
+                                    <i class="bi bi-send"></i> Apply Now
+                                </a>
+                            {% endif %}
+                        {% endif %}
+                        <a href="{{ url_for('job_listings') }}" class="btn btn-outline-secondary w-100">
+                            <i class="bi bi-arrow-left"></i> Back to Listings
+                        </a>
+                    {% elif current_user.is_authenticated and current_user.u_role == 'company' %}
+                        <a href="{{ url_for('job_listings') }}" class="btn btn-primary w-100">
+                            <i class="bi bi-arrow-left"></i> Back to Listings
+                        </a>
+                    {% elif current_user.is_authenticated and current_user.u_role == 'admin' %}
+                        <a href="{{ url_for('admin_dashboard') }}" class="btn btn-primary w-100 mb-2">
+                            <i class="bi bi-speedometer2"></i> Admin Dashboard
+                        </a>
+                        <a href="{{ url_for('job_listings') }}" class="btn btn-outline-secondary w-100">
+                            <i class="bi bi-arrow-left"></i> Back to Listings
+                        </a>
+                    {% else %}
+                        <div class="alert alert-info mb-3">
+                            <i class="bi bi-info-circle"></i> Please login to apply for this job
+                        </div>
+                        <a href="{{ url_for('login') }}" class="btn btn-primary w-100 mb-2">
+                            <i class="bi bi-box-arrow-in-right"></i> Login
+                        </a>
+                        <a href="{{ url_for('register') }}" class="btn btn-outline-primary w-100">
+                            <i class="bi bi-person-plus"></i> Register
+                        </a>
+                    {% endif %}
+                    
+                    <hr class="my-3">
+                    
+                    <!-- Job Stats -->
+                    <div class="text-center">
+                        <p class="text-muted small mb-0">
+                            <i class="bi bi-eye"></i> {{ job.rel_applications.count() }} applications received
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

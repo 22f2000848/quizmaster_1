@@ -1,0 +1,54 @@
+{% extends "base.html" %}
+
+{% block title %}Apply for {{ job.jp_title }} - Placement Portal{% endblock %}
+
+{% block content %}
+<div class="container py-4">
+    <div class="row justify-content-center">
+        <div class="col-lg-8">
+            <!-- Job Summary Card -->
+            <div class="card border-0 shadow-sm mb-4">
+                <div class="card-header bg-primary text-white py-3">
+                    <h4 class="mb-0"><i class="bi bi-briefcase"></i> Applying for</h4>
+                </div>
+                <div class="card-body">
+                    <h3>{{ job.jp_title }}</h3>
+                    <p class="text-muted mb-2"><i class="bi bi-building"></i> {{ job.posting_company.cp_name }}</p>
+                    <p class="text-muted mb-0"><i class="bi bi-geo-alt"></i> {{ job.jp_location or 'Location not specified' }}</p>
+                </div>
+            </div>
+            
+            <!-- Application Form -->
+            <div class="card border-0 shadow-sm">
+                <div class="card-header bg-white py-3">
+                    <h5 class="mb-0"><i class="bi bi-file-earmark-text"></i> Application Details</h5>
+                </div>
+                <div class="card-body p-4">
+                    <form method="POST" action="{{ url_for('apply_to_job', job_id=job.jp_id) }}" novalidate>
+                        {{ form.hidden_tag() }}
+                        
+                        <div class="alert alert-info">
+                            <i class="bi bi-info-circle"></i> Your profile information will be automatically shared with the company.
+                        </div>
+                        
+                        <!-- Cover Letter -->
+                        <div class="mb-4">
+                            <label for="{{ form.af_cover_letter.id }}" class="form-label">
+                                <i class="bi bi-file-text"></i> Cover Letter (Optional)
+                            </label>
+                            {{ form.af_cover_letter(class="form-control", rows="6", placeholder="Explain why you're interested in this position and why you'd be a great fit...") }}
+                            <div class="form-text">Write a brief cover letter to introduce yourself to the company</div>
+                        </div>
+                        
+                        <!-- Submit Button -->
+                        <div class="d-flex gap-2">
+                            {{ form.af_submit(class="btn btn-primary btn-lg") }}
+                            <a href="{{ url_for('job_detail', job_id=job.jp_id) }}" class="btn btn-secondary btn-lg">Cancel</a>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
